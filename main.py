@@ -7,13 +7,10 @@ import os
 def initialize_genai(api_key):
     """Initialize the Gemini AI model."""
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel("gemini-1.5-flash")
-    # gemini-1.5-flash
-    # gemini-2.0-flash-exp
+    return genai.GenerativeModel("gemini-2.0-flash-exp")
 
 def get_analysis_prompt(analysis_type):
     """Return a specific prompt based on the selected analysis type."""
-    # Strip the description from the analysis type to get the base type
     base_type = analysis_type.split(" - ")[0]
     
     prompts = {
@@ -31,35 +28,35 @@ def get_analysis_prompt(analysis_type):
         - Identify all participants and their roles
         - Extract the main purpose/objective of the meeting
         - Note the overall tone and engagement level
-
+        
         2. Key Discussion Points:
         - List and elaborate on the major topics discussed
         - Highlight any decisions made or conclusions reached
         - Capture important questions raised and their answers
-
+        
         3. Action Items & Next Steps:
         - Extract all tasks and assignments
         - Include who is responsible for each item
         - Note any mentioned deadlines or timeframes
         - Flag any items marked as high priority
-
+        
         4. Follow-up Requirements:
         - List any scheduled follow-up meetings
         - Note any documents or resources that were requested
         - Identify any pending decisions or unresolved issues
-
+        
         5. Notable Quotes & Key Insights:
         - Extract significant statements or important insights
         - Include context for each notable point
         - Highlight any strategic or innovative ideas proposed
-
+        
         6. Additional Context:
         - Note any important references to past meetings or decisions
         - Capture any mentioned risks or concerns
         - Highlight any budget or resource discussions
-
-        Please organize this information in a clear, concise format while maintaining the natural flow of the discussion. Include approximate timestamps for major topic transitions.""",
         
+        Please organize this information in a clear, concise format while maintaining the natural flow of the discussion. Include approximate timestamps for major topic transitions.""",
+                
         "Key Quotes": """Extract the most significant and impactful quotes from this audio.
         For each quote, provide:
         - The exact quote
@@ -101,6 +98,10 @@ def process_audio(audio_file, analysis_type, model):
 def main():
     st.title("🎧 Audio Analysis Tool")
     
+    # Initialize session state for storing results
+    if 'analysis_result' not in st.session_state:
+        st.session_state.analysis_result = ""
+    
     # Analysis options with descriptions included in the options
     analysis_options = [
         "Transcription - Convert speech to text with high accuracy",
@@ -128,16 +129,26 @@ def main():
                 analysis_options
             )
             
+            # Process audio button
             if audio_file and st.button("Analyze Audio"):
                 with st.spinner("Processing audio..."):
-                    result = process_audio(audio_file, selected_type, model)
-                    
-                    st.subheader("Analysis Results")
-                    st.text_area("Output", result, height=300)
-                    
-                    if st.button("Copy to Clipboard"):
-                        pyperclip.copy(result)
-                        st.success("Copied to clipboard!")
+                    st.session_state.analysis_result = process_audio(audio_file, selected_type, model)
+            
+            # Display results if available
+            if st.session_state.analysis_result:
+                st.subheader("Analysis Results")
+                st.text_area("Output", st.session_state.analysis_result, height=300)
+                
+                # Copy button in a separate column
+                col1, col2 = st.columns([1, 4])
+                with col1:
+                    if st.button("📋 Copy"):
+                        try:
+                            pyperclip.copy(st.session_state.analysis_result)
+                            st.success("Copied!")
+                        except Exception as e:
+                            st.error(f"Error copying to clipboard: {str(e)}")
+                
         except Exception as e:
             st.error(f"Error initializing Gemini AI: {str(e)}")
     else:
