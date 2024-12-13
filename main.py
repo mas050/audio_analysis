@@ -113,7 +113,7 @@ def main():
     ]
     
     # API Key input
-    api_key = 'AIzaSyBQOjZQOynQ5Fo-lMidpcg1VCSqpPeoNSA' #st.text_input("Enter your Gemini API Key", type="password")
+    api_key = st.text_input("Enter your Gemini API Key", type="password")
     
     if api_key:
         try:
