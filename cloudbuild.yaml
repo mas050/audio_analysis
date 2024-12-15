@@ -1,0 +1,21 @@
+steps:
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+      - 'gcloud'
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--source'
+      - '.'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8501'
+
+substitutions:
+  _SERVICE_NAME: streamlit-audio-analysis  # Your service name
+  _REGION: us-central1  # Your desired region
