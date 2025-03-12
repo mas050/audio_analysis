@@ -21,12 +21,40 @@ def get_analysis_prompt(analysis_type):
         Please provide a clean, accurate transcript of this audio file. Do not try to associate names that may be mentioned in the audio to piece of text in the transcript.
 
         PART 2 - SUMMARY:
-        Follow the transcript with a comprehensive summary that includes:
-        - Main topics discussed
-        - Key points and takeaways
-        - Overall context and purpose
-        - Important conclusions or decisions
+        Please provide a comprehensive meeting summary with the following elements:
 
+        1. Meeting Overview:
+        - Identify all participants and their roles
+        - Extract the main purpose/objective of the meeting
+        - Note the overall tone and engagement level
+        
+        2. Key Discussion Points:
+        - List and elaborate on the major topics discussed
+        - Highlight any decisions made or conclusions reached
+        - Capture important questions raised and their answers
+        
+        3. Action Items & Next Steps:
+        - Extract all tasks and assignments
+        - Include who is responsible for each item
+        - Note any mentioned deadlines or timeframes
+        - Flag any items marked as high priority
+        
+        4. Follow-up Requirements:
+        - List any scheduled follow-up meetings
+        - Note any documents or resources that were requested
+        - Identify any pending decisions or unresolved issues
+        
+        5. Notable Quotes & Key Insights:
+        - Extract significant statements or important insights
+        - Include context for each notable point
+        - Highlight any strategic or innovative ideas proposed
+        
+        6. Additional Context:
+        - Note any important references to past meetings or decisions
+        - Capture any mentioned risks or concerns
+        - Highlight any budget or resource discussions
+        
+        Please organize this information in a clear, concise format while maintaining the natural flow of the discussion.
         Format your response with clear headings separating the transcript and summary sections.""",
         
         "Transcription": "Please provide a clean, accurate transcript of this audio file.",
