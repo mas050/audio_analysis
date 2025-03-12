@@ -19,7 +19,7 @@ def get_analysis_prompt(analysis_type):
         "Transcript & Summary": """Please provide both a clean, accurate transcript of this audio file AND a comprehensive summary of the content.
 
         PART 1 - TRANSCRIPT:
-        Provide a complete, verbatim transcript of all spoken content.
+        Please provide a clean, accurate transcript of this audio file. Do not try to associate names that may be mentioned in the audio to piece of text in the transcript.
 
         PART 2 - SUMMARY:
         Follow the transcript with a comprehensive summary that includes:
