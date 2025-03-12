@@ -1,6 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
-import pyperclip
+from datetime import datetime
 from tempfile import NamedTemporaryFile
 import os
 
@@ -8,9 +8,8 @@ def initialize_genai(api_key):
     """Initialize the Gemini AI model."""
     genai.configure(api_key=api_key)
     #return genai.GenerativeModel("gemini-1.5-flash")
-    #return genai.GenerativeModel("gemini-2.0-flash")
-    return genai.GenerativeModel("gemini-2.0-flash-lite")
-    
+    return genai.GenerativeModel("gemini-2.0-flash-exp")
+
 def get_analysis_prompt(analysis_type):
     """Return a specific prompt based on the selected analysis type."""
     base_type = analysis_type.split(" - ")[0]
@@ -156,15 +155,20 @@ def main():
                 st.subheader("Analysis Results")
                 st.text_area("Output", st.session_state.analysis_result, height=300)
                 
-                # Copy button in a separate column
+                # Download button in a separate column
                 col1, col2 = st.columns([1, 4])
                 with col1:
-                    if st.button("📋 Copy"):
-                        try:
-                            pyperclip.copy(st.session_state.analysis_result)
-                            st.success("Copied!")
-                        except Exception as e:
-                            st.error(f"Error copying to clipboard: {str(e)}")
+                    # Add download button
+                    from datetime import datetime
+                    current_time = datetime.now().strftime("%Y%m%d_%H%M")
+                    filename = f"audio_analysis_{current_time}.txt"
+                    
+                    st.download_button(
+                        label="💾 Download",
+                        data=st.session_state.analysis_result,
+                        file_name=filename,
+                        mime="text/plain"
+                    )
                 
         except Exception as e:
             st.error(f"Error initializing Gemini AI: {str(e)}")
