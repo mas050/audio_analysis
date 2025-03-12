@@ -15,6 +15,20 @@ def get_analysis_prompt(analysis_type):
     base_type = analysis_type.split(" - ")[0]
     
     prompts = {
+        "Transcript & Summary": """Please provide both a clean, accurate transcript of this audio file AND a comprehensive summary of the content.
+
+        PART 1 - TRANSCRIPT:
+        Provide a complete, verbatim transcript of all spoken content.
+
+        PART 2 - SUMMARY:
+        Follow the transcript with a comprehensive summary that includes:
+        - Main topics discussed
+        - Key points and takeaways
+        - Overall context and purpose
+        - Important conclusions or decisions
+
+        Format your response with clear headings separating the transcript and summary sections.""",
+        
         "Transcription": "Please provide a clean, accurate transcript of this audio file.",
         
         "Summary": """Please provide a comprehensive summary of this audio content, including:
@@ -105,6 +119,7 @@ def main():
     
     # Analysis options with descriptions included in the options
     analysis_options = [
+        "Transcript & Summary - Generate both a complete transcript and a comprehensive summary",
         "Transcription - Convert speech to text with high accuracy",
         "Summary - Generate a concise overview of the main points",
         "Meeting Summary - Create a structured summary with participants, decisions, and action items",
