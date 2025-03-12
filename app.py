@@ -158,10 +158,17 @@ def main():
                 # Download button in a separate column
                 col1, col2 = st.columns([1, 4])
                 with col1:
-                    # Add download button
+                    # Add download button that uses the uploaded file's name
                     from datetime import datetime
+                    import os
                     current_time = datetime.now().strftime("%Y%m%d_%H%M")
-                    filename = f"audio_analysis_{current_time}.txt"
+                    
+                    # Get the original filename without extension and replace spaces with underscores
+                    original_filename = os.path.splitext(audio_file.name)[0]
+                    original_filename = original_filename.replace(" ", "_")
+                    
+                    # Create new filename with original file name and timestamp
+                    filename = f"{original_filename}_{current_time}.txt"
                     
                     st.download_button(
                         label="💾 Download",
