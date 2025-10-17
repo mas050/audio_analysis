@@ -10,7 +10,7 @@ import base64
 def initialize_genai(api_key):
     """Initialize the Gemini AI model."""
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel("gemini-2.0-flash")
+    return genai.GenerativeModel("gemini-2.5-flash")
 
 def get_analysis_prompt(analysis_type):
     """Return a specific prompt based on the selected analysis type."""
